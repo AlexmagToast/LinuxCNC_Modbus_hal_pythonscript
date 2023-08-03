@@ -28,28 +28,45 @@ for port in range(32):
     c.newpin("N4DIH32.{}".format(port), hal.HAL_BIT, hal.HAL_OUT)
     c.newparam("N4DIH32.{}-invert".format(port), hal.HAL_BIT, hal.HAL_RW)
 
+c.newpin("SZGH.spindlecurrent", hal.HAL_FLOAT, hal.HAL_OUT)
+    
+N4DIH32 = minimalmodbus.Instrument('/dev/ttyUSB0',1)
+N4DIH32.serial.baudrate = 9400
+    
+SZGH = minimalmodbus.Instrument('/dev/ttyUSB0',48)
+        
+
+def readN4DIH32():
+    data = N4DIH32.read_register(192)
+    for pin_number in range(16):
+        state = bool((data >> pin_number) & 1)
+        c["N4DIH32.{}".format(pin_number)] = state
+    time.sleep(0.1)
+    data = N4DIH32.read_register(193)
+    for pin_number in range(16):
+        state = bool((data >> pin_number) & 1)
+        c["N4DIH32.{}".format(pin_number+16)] = state
+
+
+def readSZGH():
+    try:
+        pin_number = 0x2228
+        data = SZGH.read_float(pin_number,3)
+        c["SZGH.spindlecurrent"] = data    
+    except:
+        c["SZGH.spindlecurrent"] = 0
+        
 while True:
     time.sleep(0.1)
+    
     try:
-        #N4DIH32
-        N4DIH32 = minimalmodbus.Instrument('/dev/ttyUSB0',1)
-        N4DIH32.serial.baudrate = 9400
-
-        data = N4DIH32.read_register(192)
-        for pin_number in range(16):
-            state = bool((data >> pin_number) & 1)
-            c["N4DIH32.{}".format(pin_number)] = state
-            #print(f"Pin Number: {pin_number:2d}  State: {state}")
-        time.sleep(0.1)
-        data = N4DIH32.read_register(193)
-        for pin_number in range(16):
-            state = bool((data >> pin_number) & 1)
-            c["N4DIH32.{}".format(pin_number+16)] = state
-            #print(f"Pin Number: {pin_number+16}  State: {state}")
+        readSZGH()
+        readN4DIH32()
 
          
     except: 
         pass
+    
 
 
 
