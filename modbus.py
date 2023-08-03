@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.9
 import hal, minimalmodbus, time
 
 # The baud rate is 9600, but it can be changed by writing an int number in the range of 0-4 to register 255, as follows:
@@ -21,15 +22,11 @@ import hal, minimalmodbus, time
 #The register at address 193 works the same, but for the next 16 input pins.
 
 #The device address is changed using the "DIP switch," where address 1 has already been selected.
-def print_pins_states(binary_data):
-    if len(binary_data) != 16:
-        raise ValueError("Binary data length must be 16 bits.")
+c = hal.component("modbus") 	#name that we will cal pins from in hal
 
-    for pin_number, state_char in enumerate(binary_data, start=1):
-        state = int(state_char)
-        print(f"Pin Number: {pin_number:2d}  State: {state}")
-
-
+for port in range(32):
+    c.newpin("N4DIH32.{}".format(port), hal.HAL_BIT, hal.HAL_OUT)
+    c.newparam("N4DIH32.{}-invert".format(port), hal.HAL_BIT, hal.HAL_RW)
 
 while True:
     time.sleep(0.1)
@@ -38,11 +35,19 @@ while True:
         N4DIH32 = minimalmodbus.Instrument('/dev/ttyUSB0',1)
         N4DIH32.serial.baudrate = 9400
 
-        data = N4DIH32.read_register(192,1)
-        print(print_pins_states(data))
+        data = N4DIH32.read_register(192)
+        for pin_number in range(16):
+            state = bool((data >> pin_number) & 1)
+            c["N4DIH32.{}".format(pin_number)] = state
+            #print(f"Pin Number: {pin_number:2d}  State: {state}")
         time.sleep(0.1)
-        data = N4DIH32.read_register(193,1)
-        print(print_pins_states(data))
+        data = N4DIH32.read_register(193)
+        for pin_number in range(16):
+            state = bool((data >> pin_number) & 1)
+            c["N4DIH32.{}".format(pin_number+16)] = state
+            #print(f"Pin Number: {pin_number+16}  State: {state}")
+
+         
     except: 
         pass
 
