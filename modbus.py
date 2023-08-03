@@ -22,6 +22,7 @@ import hal, minimalmodbus, time
 #The register at address 193 works the same, but for the next 16 input pins.
 
 #The device address is changed using the "DIP switch," where address 1 has already been selected.
+
 c = hal.component("modbus") 	#name that we will cal pins from in hal
 
 for port in range(32):
@@ -30,11 +31,12 @@ for port in range(32):
 
 c.newpin("SZGH.spindlecurrent", hal.HAL_FLOAT, hal.HAL_OUT)
     
-N4DIH32 = minimalmodbus.Instrument('/dev/ttyUSB0',1)
-N4DIH32.serial.baudrate = 9400
+N4DIH32 = minimalmodbus.Instrument('/dev/ttyUSB1',1)
+N4DIH32.serial.baudrate = 9600
     
-SZGH = minimalmodbus.Instrument('/dev/ttyUSB0',48)
-        
+SZGH = minimalmodbus.Instrument('/dev/ttyUSB1',48)
+#Driver = minimalmodbus.Instrument('/dev/ttyUSB1',2)
+
 
 def readN4DIH32():
     data = N4DIH32.read_register(192)
@@ -56,12 +58,24 @@ def readSZGH():
     except:
         c["SZGH.spindlecurrent"] = 0
         
+
+def tryDriver(): #trying to reverseengineer Adresses of Coyna Driver.. but doesn't help...
+    for trys in range(99999):
+        try:
+            #print(trys)
+            pin_number = trys #0x2228
+            data = Driver.read_bit(pin_number)
+            print(f"Pin Number: {pin_number}  State: {data}")
+        except:
+            pass
+
 while True:
     time.sleep(0.1)
     
     try:
         readSZGH()
         readN4DIH32()
+        
 
          
     except: 
