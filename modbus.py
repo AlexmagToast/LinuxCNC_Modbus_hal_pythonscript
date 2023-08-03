@@ -21,6 +21,14 @@ import hal, minimalmodbus, time
 #The register at address 193 works the same, but for the next 16 input pins.
 
 #The device address is changed using the "DIP switch," where address 1 has already been selected.
+def print_pins_states(binary_data):
+    if len(binary_data) != 16:
+        raise ValueError("Binary data length must be 16 bits.")
+
+    for pin_number, state_char in enumerate(binary_data, start=1):
+        state = int(state_char)
+        print(f"Pin Number: {pin_number:2d}  State: {state}")
+
 
 
 while True:
@@ -31,9 +39,12 @@ while True:
         N4DIH32.serial.baudrate = 9400
 
         data = N4DIH32.read_register(192,1)
-        print(data)
+        print(print_pins_states(data))
         time.sleep(0.1)
         data = N4DIH32.read_register(193,1)
-        print(data)
+        print(print_pins_states(data))
     except: 
         pass
+
+
+
