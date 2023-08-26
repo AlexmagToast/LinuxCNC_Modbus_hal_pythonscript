@@ -1,6 +1,5 @@
 #!/usr/bin/env python3.9
-#import hal, minimalmodbus, 
-import time
+import hal, minimalmodbus, time
 
 # The baud rate is 9600, but it can be changed by writing an int number in the range of 0-4 to register 255, as follows:
 
@@ -23,11 +22,11 @@ import time
 #The register at address 193 works the same, but for the next 16 input pins.
 
 #The device address is changed using the "DIP switch," where address 1 has already been selected.
-#c = hal.component("modbus") 	#name that we will cal pins from in hal
+c = hal.component("modbus") 	#name that we will cal pins from in hal
 
 
 
-SZGH_monitoring_adresses = [
+"""SZGH_monitoring_adresses = [
     #[adress,name of Parameter,0=bit 1=int 2=float,0=IN, 1=Out 2=RW]
     [0x2404,"running_of_math",3,1],
     [0x2228,"motor_output_current",3,1],
@@ -57,8 +56,7 @@ SZGH_monitoring_adresses = [
     [0x415C,"no.3_error",3,1],
     [0x417A,"no.4_error",3,1],
     [0x4198,"no.5_error",3,1],
-]
-
+]"""
 
 SZGH_parameter_adresses = [
     #[adress,name_of_Parameter,0=bit_1=int_2=float,0=IN,_1=Out_2=RW]
@@ -154,21 +152,69 @@ SZGH_parameter_adresses = [
     [0x2A08,"torque_ins_dir",3,1],
 ]
 
+"""
+SZGH_monitoring_adresses = [
+    #[adress,code,0=bit 1=int 2=float,0=IN, 1=Out 2=RW]
+    [0x2404,"RUN",1,1],
+    [0x2228,"Ao",2,1],
+    [0x2238,"To",2,1],
+    [0x2408,"FI",2,1],
+    [0x240A,"Fo",2,1],
+    [0x2276,"Fr",2,1],
+    [0x2364,"d1-d8",1,1],
+    [0x23B0,"o1-o4",1,1],
+    [0x2316,"A0",2,1],
+    [0x2318,"A1",2,1],
+    [0x2272,"P",2,1],
+    [0x2274,"H",1,1],
+    [0x2356,"E",2,1],
+    [0x2358,"F",2,1],
+    [0x240C,"C",2,1],
+    [0x240E,"L",2,1],
+    [0x2410,"U",2,1],
+    [0x2804,"nc",2,1],
+    [0x2806,"Ac",2,1],
+    [0x2808,"dc",2,1],
+    [0x280A,"FE",2,1],
+    [0x2800,"oP",2,1],
+    [0x4102,"Er0",0,1],
+    [0x4120,"Er1",0,1],
+    [0x413E,"Er2",0,1],
+    [0x415C,"Er3",0,1],
+    [0x417A,"Er4",0,1],
+    [0x4198,"Er5",0,1],
+]
+"""
+def setup_SZGH_monitoring_adresses():
+    for entry in range(len(SZGH_monitoring_adresses)):
+        if SZGH_monitoring_adresses[entry][2] == 0:
+            c.newpin("SZGH.mon.{}".format(SZGH_monitoring_adresses[entry][1]), hal.HAL_BIT, hal.HAL_OUT)
+        if SZGH_monitoring_adresses[entry][2] == 1:
+            c.newpin("SZGH.mon.{}".format(SZGH_monitoring_adresses[entry][1]), hal.HAL_S32, hal.HAL_OUT)
+        if SZGH_monitoring_adresses[entry][2] == 2:
+            c.newpin("SZGH.mon.{}".format(SZGH_monitoring_adresses[entry][1]), hal.HAL_FLOAT, hal.HAL_OUT)
+        
 
-
-def readSZGH_monitoring_adresses():
-    time.sleep(0.1)
+def read_SZGH_monitoring_adresses():
     for entry in range(len(SZGH_monitoring_adresses)):  
+        time.sleep(0.1)
         try:
-            registry = SZGH_monitoring_adresses[entry][0]
-            #data = SZGH.read_float(registry,3)
-            #c[SZGH_monitoring_adresses[entry][1]] = data
-            print(registry)
+            registry = SZGH_monitoring_adresses[entry][0]                
+            if SZGH_monitoring_adresses[entry][2] == 0:
+                data = SZGH.read_bit(registry)
+                c["SZGH.mon.{}".format(SZGH_monitoring_adresses[entry][1])] = data
+            if SZGH_monitoring_adresses[entry][2] == 1:
+                data = SZGH.read_register(registry)
+                c["SZGH.mon.{}".format(SZGH_monitoring_adresses[entry][1])] = data
+            if SZGH_monitoring_adresses[entry][2] == 2:
+                data = SZGH.read_float(registry)
+                c["SZGH.mon.{}".format(SZGH_monitoring_adresses[entry][1])] = data    
+            
         except:
-            #c["SZGH.spindlecurrent"] = 0
-            pass
+            c["SZGH.mon.{}".format(SZGH_monitoring_adresses[entry][1])] = 5
+            
 
-def readSZGH_parameter_adresses():
+def read_SZGH_parameter_adresses():
     time.sleep(0.1)
     for entry in range(len(SZGH_parameter_adresses)):  
         try:
@@ -183,22 +229,11 @@ def readSZGH_parameter_adresses():
 
 
 
-
-
-
-
-
-
-
-
-"""
-
 for port in range(32):
     c.newpin("N4DIH32.{}".format(port), hal.HAL_BIT, hal.HAL_OUT)
     c.newparam("N4DIH32.{}-invert".format(port), hal.HAL_BIT, hal.HAL_RW)
 
-c.newpin("SZGH.spindlecurrent", hal.HAL_FLOAT, hal.HAL_OUT)
-    
+
 N4DIH32 = minimalmodbus.Instrument('/dev/ttyUSB0',1)
 N4DIH32.serial.baudrate = 9600
     
@@ -224,20 +259,23 @@ def readSZGH():
         c["SZGH.spindlecurrent"] = data    
     except:
         c["SZGH.spindlecurrent"] = 0
-"""
+
+setup_SZGH_monitoring_adresses()
+
 
 while True:
     time.sleep(0.1)
     
     try:
-        readSZGH_parameter_adresses()
-        #readSZGH_monitoring_adresses()
-        #readN4DIH32()
-
+        readN4DIH32()
+        #read_SZGH_parameter_adresses()
+        read_SZGH_monitoring_adresses()
+        
          
+    except KeyboardInterrupt:
+        exit()
+
     except: 
         pass
-    
-
 
 
