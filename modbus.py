@@ -229,34 +229,19 @@ def read_SZGH_paramter_adresses():
     for entry in range(len(SZGH_monitoring_adresses)):  
         time.sleep(0.1)
         try:
-            registry = SZGH_monitoring_adresses[entry][0]                
+            registry = SZGH_monitoring_adresses[entry][0]
             if SZGH_monitoring_adresses[entry][2] == 0:
                 data = SZGH.read_bit(registry)
                 c["SZGH.par.{}".format(SZGH_monitoring_adresses[entry][1])] = data
             if SZGH_monitoring_adresses[entry][2] == 1:
-                data = SZGH.read_register(registry)
+                data = SZGH.read_register(registry,number_of_decimals=0,functioncode=3,signed=False)
                 c["SZGH.par.{}".format(SZGH_monitoring_adresses[entry][1])] = data
             if SZGH_monitoring_adresses[entry][2] == 2:
                 data = SZGH.read_float(registry)
-                c["SZGH.par.{}".format(SZGH_monitoring_adresses[entry][1])] = data    
-            
+                c["SZGH.par.{}".format(SZGH_monitoring_adresses[entry][1])] = data
+
         except:
             c["SZGH.par.{}".format(SZGH_monitoring_adresses[entry][1])] = 5
-            
-
-def read_SZGH_parameter_adresses():
-    time.sleep(0.1)
-    for entry in range(len(SZGH_parameter_adresses)):  
-        try:
-            registry = SZGH_parameter_adresses[entry][0]
-            #data = SZGH.read_float(registry,3)
-            #c[SZGH_monitoring_adresses[entry][1]] = data
-            print(registry)
-        except:
-            #c["SZGH.spindlecurrent"] = 0
-            pass
-            
-
 
 
 for port in range(32):
@@ -291,17 +276,15 @@ def readSZGH():
         c["SZGH.spindlecurrent"] = 0
 
 setup_SZGH_monitoring_adresses()
-
+#setup_SZGH_parameter_adresses()
 
 while True:
     time.sleep(0.1)
     
     try:
         readN4DIH32()
-        #read_SZGH_parameter_adresses()
         read_SZGH_monitoring_adresses()
-        
-         
+        #read_SZGH_paramter_adresses() 
     except KeyboardInterrupt:
         exit()
 
