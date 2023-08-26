@@ -61,98 +61,99 @@ c = hal.component("modbus") 	#name that we will cal pins from in hal
 SZGH_parameter_adresses = [
     #[adress,name_of_Parameter,0=bit_1=int_2=float,0=IN,_1=Out_2=RW]
     #Seite_41
-    [0x2100,"serial_number_of_motor_type",3,1],
-    [0x2102,"poles_number_of_motor",3,1],
-    [0x2104,"rated_frequency_of_motor",3,1],
-    [0x2106,"max_frequency_of_motor",3,1],
-    [0x2108,"motor_rated_voltage",3,1],
-    [0x210A,"motor_rated_current",3,1],
-    [0x210C,"motor_rated_torque",3,1],
-    [0x210E,"rated_excitation_current_of_motor",3,1],
-    [0x2110,"excitation_current_coefficient_of_motor",3,1],
-    [0x2112,"weak_magnetic_coefficient_of_motor",3,1],
-    [0x2114,"motor_monent_of_inertia",3,1],
-    [0x2116,"motor_zero_speed_torque_multiple",3,1],
-    [0x2118,"motor_rated_torque_multiple",3,1],
-    [0x211A,"motor_constat_power_max_speed",3,1],
-    [0x211C,"motor_zero_slip_compensate_coef",3,1],
-    [0x211E,"motor_rated_slip_compensate_coef",3,1],
-    [0x2120,"motor_max_slip_compensate_coef",3,1],
-    [0x2122,"motor_zero_slip_compensate_coef_speed",3,1],
-    [0x2140,"hi_motor_sn",3,1],
-    [0x2142,"motor_pole_number(H)",3,1],
-    [0x2144,"motor_rated_frequency(H)",3,1],
-    [0x2146,"motor_max_frequency(H)",3,1],
-    [0x2148,"motor_rated_voltage(H)",3,1],
-    [0x214A,"motor_rated_current(H)",3,1],
-    [0x214C,"motor_rated_torque(H)",3,1],
-    [0x2150,"motor_flux_current_coff(H)",3,1],
-    [0x2152,"motor_rated_flux_weak_coff",3,1],
-    [0x2154,"motor_monent_of_inertia",3,1],
-    [0x2156,"motor_zero_speed_torque_multiple",3,1],
-    [0x2158,"motor_rated_speed_torque_multiple",3,1],
-    [0x215C,"motor_zero_slip_compensate_coff",3,1],
-    [0x215E,"motor_rated_slip_compensate_coff",3,1],
-    [0x2160,"motor_max_slip_compensate_coff",3,1],
-    [0x2162,"motor_zero_slip_compensate_coff_speed",3,1],
-    [0x2180,"double_switch_state",3,1],
+    [0x2100,"P01_00",2,1],
+    [0x2102,"P01_01",2,1],
+    [0x2104,"P01_02",2,1],
+    [0x2106,"P01_03",2,1],
+    [0x2108,"P01_04",2,1],
+    [0x210A,"P01_05",2,1],
+    [0x210C,"P01_06",2,1],
+    [0x210E,"P01_07",2,1],
+    [0x2110,"P01_08",2,1],
+    [0x2112,"P01_09",2,1],
+    [0x2114,"P01_10",2,1],
+    [0x2116,"P01_11",2,1],
+    [0x2118,"P01_12",2,1],
+    [0x211A,"P01_13",2,1],
+    [0x211C,"P01_14",2,1],
+    [0x211E,"P01_15",2,1],
+    [0x2120,"P01_16",2,1],
+    [0x2122,"P01_17",2,1],
+    [0x2140,"P02_00",2,1],
+    [0x2142,"P02_01",2,1],
+    [0x2144,"P02_02",2,1],
+    [0x2146,"P02_03",2,1],
+    [0x2148,"P02_04",2,1],
+    [0x214A,"P02_05",2,1],
+    [0x214C,"P02_06",2,1],
+    [0x2150,"P02_08",2,1],
+    [0x2152,"P02_09",2,1],
+    [0x2154,"P02_10",2,1],
+    [0x2156,"P02_11",2,1],
+    [0x2158,"P02_12",2,1],
+    [0x215C,"P02_14",2,1],
+    [0x215E,"P02_15",2,1],
+    [0x2160,"P02_16",2,1],
+    [0x2162,"P02_17",2,1],
+    [0x2180,"P03_00",2,1],
 #Seite_51
-    [0x2900,"accurate_stop_control_type",3,1],
-    [0x2902,"accurate_stop_feedback_source",3,1],
-    [0x2904,"accureate_stop_dec",3,1],
-    [0x2906,"accurate_stop_search_z-speed",3,1],
-    [0x2908,"accurate_stop_pos_max_speed",3,1],
-    [0x290E,"accurate_stop_stiff",3,1],
-    [0x2914,"accurate_stop_precision",3,1],
-    [0x2918,"accurate_stop_position_1",3,1],
-    [0x291A,"accurate_stop_position_2",3,1],
-    [0x291C,"accurate_stop_position_3",3,1],
-    [0x291E,"accurate_stop_position_4",3,1],
-    [0x2980,"speed_algorithm_type",3,1],
-    [0x2982,"speed_feedback_source",3,1],
-    [0x2984,"speed_ins_type",3,1],
-    [0x2986,"speed_zero_lock_time_delay",3,1],
-    [0x2988,"speed_control_s-curve_time",3,1],
-    [0x298A,"speed_control_max_speed",3,1],
-    [0x298C,"speed_control_min_speed",3,1],
-    [0x298E,"speed_control_low_speed_acc",3,1],
-    [0x2990,"speed_control_low_speed_dec",3,1],
-    [0x2992,"speed_control_adj_speed_sw_point",3,1],
-    [0x2994,"speed_control_hi_speed_acc",3,1],
-    [0x2996,"speed_control_hi_speed_dec",3,1],
-    [0x2998,"speed_control_reach_field",3,1],
+    [0x28A8,"P53_20",2,1],
+    [0x2900,"P54_00",2,1],
+    [0x2902,"P54_01",2,1],
+    [0x2904,"P54_02",2,1],
+    [0x2906,"P54_03",2,1],
+    [0x2908,"P54_04",2,1],
+    [0x290E,"P54_07",2,1],
+    [0x2914,"P54_10",2,1],
+    [0x2918,"P54_12",2,1],
+    [0x291A,"P54_13",2,1],
+    [0x291C,"P54_14",2,1],
+    [0x291E,"P54_15",2,1],
+    [0x2980,"P55_00",2,1],
+    [0x2982,"P55_01",2,1],
+    [0x2984,"P55_02",2,1],
+    [0x2986,"P55_03",2,1],
+    [0x2988,"P55_04",2,1],
+    [0x298A,"P55_05",2,1],
+    [0x298C,"P55_06",2,1],
+    [0x298E,"P55_07",2,1],
+    [0x2990,"P55_08",2,1],
+    [0x2992,"P55_09",2,1],
+    [0x2994,"P55_10",2,1],
+    [0x2996,"P55_11",2,1],
+    [0x2998,"P55_12",2,1],
 
 #Seite_52
-    [0x299A,"speed_control_ins_gear_ratio",3,1],
-    [0x299C,"speed_control_speed_ins_dir",3,1],
-    [0x299E,"speed_control_speed_inv_disable",3,1],
-    [0x29A4,"speed_control_speed_ins_resolution",3,1],
-    [0x29A6,"speed_control_mbus_target_speed",3,1],
-    [0x29A8,"gear_speed_0",3,1],
-    [0x29AA,"gear_speed_1",3,1],
-    [0x29AC,"gear_speed_2",3,1],
-    [0x29AE,"gear_speed_3",3,1],
-    [0x29B0,"gear_speed_4",3,1],
-    [0x29B2,"gear_speed_5",3,1],
-    [0x29B4,"gear_speed_6",3,1],
-    [0x29B6,"gear_speed_7",3,1],
-    [0x29B8,"gear_speed_8",3,1],
-    [0x29BA,"gear_speed_9",3,1],
-    [0x29BC,"gear_speed_10",3,1],
-    [0x29BE,"gear_speed_11",3,1],
-    [0x29C0,"gear_speed_12",3,1],
-    [0x29C2,"gear_speed_13",3,1],
-    [0x29C4,"gear_speed_14",3,1],
-    [0x29C6,"gear_speed_15",3,1],
-    [0x29C8,"zero_speed_no_output_range",3,1],
-    [0x2A00,"torque_ins_type",3,1],
-    [0x2A02,"max_torque",3,1],
-    [0x2A04,"torque_acc",3,1],
-    [0x2A06,"torque_dec",3,1],
-    [0x2A08,"torque_ins_dir",3,1],
+    [0x299A,"P55_13",2,1],
+    [0x299C,"P55_14",2,1],
+    [0x299E,"P55_15",2,1],
+    [0x29A4,"P55_18",2,1],
+    [0x29A6,"P55_19",2,1],
+    [0x29A8,"P55_20",2,1],
+    [0x29AA,"P55_21",2,1],
+    [0x29AC,"P55_22",2,1],
+    [0x29AE,"P55_23",2,1],
+    [0x29B0,"P55_24",2,1],
+    [0x29B2,"P55_25",2,1],
+    [0x29B4,"P55_26",2,1],
+    [0x29B6,"P55_27",2,1],
+    [0x29B8,"P55_28",2,1],
+    [0x29BA,"P55_30",2,1],
+    [0x29BC,"P55_31",2,1],
+    [0x29BE,"P55_32",2,1],
+    [0x29C0,"P55_33",2,1],
+    [0x29C2,"P55_34",2,1],
+    [0x29C4,"P55_35",2,1],
+    [0x29C6,"P55_36",2,1],
+    [0x29C8,"P55_37",2,1],
+    [0x2A00,"P56_00",2,1],
+    [0x2A02,"P56_01",2,1],
+    [0x2A04,"P56_02",2,1],
+    [0x2A06,"P56_03",2,1],
+    [0x2A08,"P56_04",2,1],
 ]
 
-"""
+
 SZGH_monitoring_adresses = [
     #[adress,code,0=bit 1=int 2=float,0=IN, 1=Out 2=RW]
     [0x2404,"RUN",1,1],
@@ -184,7 +185,7 @@ SZGH_monitoring_adresses = [
     [0x417A,"Er4",0,1],
     [0x4198,"Er5",0,1],
 ]
-"""
+
 def setup_SZGH_monitoring_adresses():
     for entry in range(len(SZGH_monitoring_adresses)):
         if SZGH_monitoring_adresses[entry][2] == 0:
@@ -194,6 +195,16 @@ def setup_SZGH_monitoring_adresses():
         if SZGH_monitoring_adresses[entry][2] == 2:
             c.newpin("SZGH.mon.{}".format(SZGH_monitoring_adresses[entry][1]), hal.HAL_FLOAT, hal.HAL_OUT)
         
+def setup_SZGH_parameter_adresses():
+    for entry in range(len(SZGH_parameter_adresses)):
+        if SZGH_parameter_adresses[entry][2] == 0:
+            c.newpin("SZGH.par.{}".format(SZGH_parameter_adresses[entry][1]), hal.HAL_BIT, hal.HAL_OUT)
+        if SZGH_parameter_adresses[entry][2] == 1:
+            c.newpin("SZGH.par.{}".format(SZGH_parameter_adresses[entry][1]), hal.HAL_S32, hal.HAL_OUT)
+        if SZGH_parameter_adresses[entry][2] == 2:
+            c.newpin("SZGH.par.{}".format(SZGH_parameter_adresses[entry][1]), hal.HAL_FLOAT, hal.HAL_OUT)
+        
+
 
 def read_SZGH_monitoring_adresses():
     for entry in range(len(SZGH_monitoring_adresses)):  
@@ -212,6 +223,25 @@ def read_SZGH_monitoring_adresses():
             
         except:
             c["SZGH.mon.{}".format(SZGH_monitoring_adresses[entry][1])] = 5
+
+
+def read_SZGH_paramter_adresses():
+    for entry in range(len(SZGH_monitoring_adresses)):  
+        time.sleep(0.1)
+        try:
+            registry = SZGH_monitoring_adresses[entry][0]                
+            if SZGH_monitoring_adresses[entry][2] == 0:
+                data = SZGH.read_bit(registry)
+                c["SZGH.par.{}".format(SZGH_monitoring_adresses[entry][1])] = data
+            if SZGH_monitoring_adresses[entry][2] == 1:
+                data = SZGH.read_register(registry)
+                c["SZGH.par.{}".format(SZGH_monitoring_adresses[entry][1])] = data
+            if SZGH_monitoring_adresses[entry][2] == 2:
+                data = SZGH.read_float(registry)
+                c["SZGH.par.{}".format(SZGH_monitoring_adresses[entry][1])] = data    
+            
+        except:
+            c["SZGH.par.{}".format(SZGH_monitoring_adresses[entry][1])] = 5
             
 
 def read_SZGH_parameter_adresses():
